@@ -7,10 +7,10 @@ function App() {
 	const [posts, setPosts] = useState([]);
 
 	useEffect(() => {
-		getPostsFromNode();
+		getPostsFromMongoDb();
 	}, [posts]);
 
-	const getPostsFromNode = () => {
+	const getPostsFromMongoDb = () => {
 		fetch('http://localhost:3001/posts')
 			.then(res => res.json())
 			.then(data => {
@@ -31,7 +31,7 @@ function App() {
 		return formattedString;
 	}
 
-	const addPost = (event) => {
+	const addPost = () => {
 		const newPost = { postMessage: post };
 
 		fetch('http://localhost:3001/post', {
@@ -47,7 +47,7 @@ function App() {
 	};
 
 	const deletePost = (id) => {
-		console.log('...requested to update book');
+		console.log('...requested to delete book');
 		fetch(`http://localhost:3001/posts/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
 			.then(res => res.json()).then(status => console.log("Status of deleting book: " + status.status));
 	};
@@ -63,7 +63,7 @@ function App() {
 									<label className="form-label">Enter your post</label>
 									<textarea className="form-control" id="post-content" rows="3" value={post} onChange={(e) => (setPost(e.target.value))}></textarea>
 									<div className="d-grid gap-2">
-										<button type="button" className="btn btn-primary mt-2" onClick={(e) => addPost(e)}>Post</button>
+										<button type="button" className="btn btn-primary mt-2" onClick={() => addPost()}>Post</button>
 									</div>
 								</div>
 							</div>
