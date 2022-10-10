@@ -90,38 +90,6 @@ app.post('/post', async (req, res) => {
     }
 });
 
-
-app.put("/posts/:postId", async (req, res) => {
-    try {
-        console.log('PUT request..:' + req.params.postId);
-        let newPost = req.body;
-        console.log(JSON.stringify('Req body:', JSON.stringify(newPost)));
-        /** There is BUG, Data is not getting updated in DB for me */
-        let post = await PostModel.findByIdAndUpdate({ _id: req.params.postId }, req.body, {
-            new: true,
-        }).catch((err) => {
-            console.error('Error-----------------', err);
-        });
-        if (post) {
-            console.log(JSON.stringify(post));
-            res.status(200).json({
-                status: 200,
-                data: post,
-            });
-        }
-        res.status(400).json({
-            status: 400,
-            message: "No Post found",
-        });
-    } catch (err) {
-        res.status(400).json({
-            status: 400,
-            message: err.message,
-        });
-    }
-});
-
-
 /** DELETE API: Gets ID of the book to be deleted from React and deletes the book in db. 
  * Sends 400 if there is no book with given id
  * Sends 500 if there is an error while saving data to DB

@@ -20,7 +20,7 @@ function App() {
 
 	function parseDateTime(dateTimeString) {
 		const dateTimeObject = new Date(dateTimeString);
-
+		
 		let time = dateTimeObject.toLocaleTimeString().split(":");
 		let unit = time[2].slice(3).toLocaleUpperCase();
 		
