@@ -52,10 +52,10 @@ app.get('/', (req, res) => {
 /** GET API: GETs Posts from DB and returns as response */
 app.get('/posts', async (req, res) => {
     try {
-        let posts = await PostModel.find();
+        let posts = await PostModel.find().sort({createdAt:-1});
         res.status(200).json({
             status: 200,
-            data: posts.reverse(),
+            data: posts,
         });
     } catch (err) {
         res.status(400).json({
