@@ -8,9 +8,10 @@ function App() {
 
 	useEffect(() => {
 		getPostsFromMongoDb();
-	}, [posts]);
+	}, []);
 
 	const getPostsFromMongoDb = () => {
+		console.log('Getting books...')
 		fetch('http://localhost:3001/posts')
 			.then(res => res.json())
 			.then(data => {
@@ -41,7 +42,10 @@ function App() {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(newPost)
-		}).then(res => res.json()).then(body => console.log("Status of adding a post: " + body.status));
+		}).then(res => res.json()).then(body => {
+			console.log("Status of adding a post: " + body.status);
+			getPostsFromMongoDb();
+		});
 
 		setPost("");
 	};
@@ -49,7 +53,10 @@ function App() {
 	const deletePost = (id) => {
 		console.log('...requested to delete book');
 		fetch(`http://localhost:3001/posts/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-			.then(res => res.json()).then(status => console.log("Status of deleting book: " + status.status));
+			.then(res => res.json()).then(status => {
+				console.log("Status of deleting book: " + status.status);
+				getPostsFromMongoDb();
+			});
 	};
 
 	return (
